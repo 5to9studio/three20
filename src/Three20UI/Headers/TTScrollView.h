@@ -219,4 +219,7 @@
  */
 - (void)cancelTouches;
 
+- (CGFloat)pageWidth ;
+- (CGFloat)pageHeight ;
+
 @end

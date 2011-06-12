@@ -271,6 +271,10 @@ static const CGFloat kFrameDuration = 1.0/40.0;
   return CGRectMake(-xd/2, -yd/2, width, height);
 }
 
+- (void)setFrame:(CGRect)frame atPageAtIndex:(NSInteger)pageIndex {
+    UIView* page = [self pageAtIndex:pageIndex create:NO];
+    page.frame = frame;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)overflowForFrame:(CGRect)frame {
@@ -545,7 +549,10 @@ static const CGFloat kFrameDuration = 1.0/40.0;
       page.frame = CGRectMake(offset.x + frame.origin.x, offset.y + frame.origin.y,
         frame.size.width, frame.size.height);
     }
+      
+      NSLog(@"LP: %@", NSStringFromCGRect(page.frame));
   }
+    
 }
 
 
@@ -1249,7 +1256,7 @@ static const CGFloat kFrameDuration = 1.0/40.0;
   edges.right  = newStretched.width - (-edges.left + self.pageWidth);
   edges.bottom = newStretched.height - (-edges.top + self.pageHeight);
 
-  /*** DEBUG *
+ 
 
   NSLog( @"page-with: %f", self.pageWidth );
   NSLog( @"resized-width: %f", newStretched.width);
@@ -1264,8 +1271,7 @@ static const CGFloat kFrameDuration = 1.0/40.0;
   NSLog( @"right: %f", edges.right);
   NSLog( @"/////////////////////////////////////////////////////////////////////////////////");
 
-  */
-
+ 
   return edges;
 }
 
@@ -1451,6 +1457,8 @@ static const CGFloat kFrameDuration = 1.0/40.0;
     [self endHolding];
   }
 
+    NSLog(@"%@", NSStringFromUIEdgeInsets(_pageEdges));
+    
   for (UITouch* touch in touches) {
     if (touch == _touch1 || touch == _touch2) {
       UITouch* remainingTouch = [self removeTouch:touch];
@@ -1754,6 +1762,9 @@ static const CGFloat kFrameDuration = 1.0/40.0;
 
   // Not animated, just apply.
   else {
+      [self startAnimationTo:zoomEdges duration:0.0
+       ];
+      return;
     UIEdgeInsets pageEdges = [self resistPageEdges:zoomEdges];
     if (![self edgesAreZoomed:pageEdges] || self.canZoom) {
       _pageEdges = pageEdges;
