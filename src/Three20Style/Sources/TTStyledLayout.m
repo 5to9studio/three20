@@ -99,7 +99,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIFont*)boldVersionOfFont:(UIFont*)font {
   // XXXjoe Clearly this doesn't work if your font is not the system font
-  return [UIFont boldSystemFontOfSize:font.pointSize];
+    if([font.familyName isEqualToString:@"Segoe WP"]) {
+        return [UIFont fontWithName:@"SegoeWP-Bold" size:font.pointSize];
+    }
+    return [UIFont boldSystemFontOfSize:font.pointSize];
 }
 
 
